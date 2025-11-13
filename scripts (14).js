@@ -4,8 +4,8 @@
   'use strict';
 
   // CONFIG
-  var ENDPOINT_URL = 'https://csehybridsponsors.sbecerr7.workers.dev/';
-  var DATA_LOADER_URL = 'https://data-loader.sbecerr7.workers.dev/';
+  var ENDPOINT_URL = 'https://cse485-online-worker.sbecerr7.workers.dev/';
+  var DATA_LOADER_URL = 'https://cse485-online-data-loader.sbecerr7.workers.dev/';
   var STORAGE_KEY = 'sponsor_progress_v1';
 
   // Rubric
