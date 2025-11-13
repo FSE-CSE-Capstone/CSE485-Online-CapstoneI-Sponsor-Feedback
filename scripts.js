@@ -3,10 +3,28 @@
 (function () {
   'use strict';
 
+    // -------------------------------------------------------
+  // Automatic Round-Aware localStorage key
+  // -------------------------------------------------------
+  (function() {
+    var BASE_KEY = 'sponsor_progress_v1';
+    var ROUND = (window.SURVEY_ROUND || 'round1');
+    var STORAGE_KEY = BASE_KEY + '_' + ROUND;
+
+    // Remove any older round keys automatically
+    try {
+      Object.keys(localStorage).forEach(function(k){
+        if (k.startsWith(BASE_KEY) && k !== STORAGE_KEY) localStorage.removeItem(k);
+      });
+    } catch(e){ console.warn('round cleanup failed', e); }
+
+    // Make available globally
+    window.STORAGE_KEY = STORAGE_KEY;
+  })();
+
   // CONFIG
   var ENDPOINT_URL = 'https://cse485-online-worker.sbecerr7.workers.dev/';
   var DATA_LOADER_URL = 'https://cse485-online-data-loader.sbecerr7.workers.dev/';
-  var STORAGE_KEY = 'sponsor_progress_v1';
 
   // Rubric
   var RUBRIC = [
