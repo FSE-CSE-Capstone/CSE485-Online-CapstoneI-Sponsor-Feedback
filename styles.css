@@ -1,5 +1,5 @@
 /* ============================================================
-   CSE 485 Capstone Sponsor Evaluation – styles.css
+   CSE 485 Online Capstone Sponsor Evaluation – styles.css
    ============================================================ */
 
 /* ── CSS Custom Properties ── */
@@ -126,7 +126,7 @@ body {
 /* ── Scoring note callout ── */
 .scoring-note {
   margin-top: 14px;
-  margin-bottom: 18px;
+   margin-bottom: 18px;
   padding: 14px 18px;
   background: linear-gradient(135deg, #fff8e1, #fff3cd);
   border-left: 5px solid var(--accent-1);
