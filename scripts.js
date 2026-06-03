@@ -1013,7 +1013,6 @@
 
   if (finishStartOverBtn) {
     finishStartOverBtn.addEventListener('click', function () {
-      completedProjects  = {};
       stagedRatings      = {};
       submittedResponses = {};
       currentProject     = '';
@@ -1223,3 +1222,4 @@
   };
 
 })();
+
