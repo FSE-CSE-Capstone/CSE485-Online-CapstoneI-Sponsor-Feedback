@@ -1,5 +1,5 @@
-/* ============================================================
-   CSE 485 Online Capstone Sponsor Evaluation – styles.css
+ /* ============================================================
+   CSE 485 Hybrid Capstone Sponsor Evaluation – styles.css
    ============================================================ */
 
 /* ── CSS Custom Properties ── */
@@ -126,7 +126,7 @@ body {
 /* ── Scoring note callout ── */
 .scoring-note {
   margin-top: 14px;
-   margin-bottom: 18px;
+  margin-bottom: 18px;
   padding: 14px 18px;
   background: linear-gradient(135deg, #fff8e1, #fff3cd);
   border-left: 5px solid var(--accent-1);
@@ -243,7 +243,9 @@ input:focus, select:focus, textarea:focus {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eef2f7;
   flex-wrap: wrap;
   gap: 8px;
 }
@@ -350,7 +352,6 @@ input:focus, select:focus, textarea:focus {
   border: 1px solid rgba(10,12,30,0.05) !important;
   box-shadow: 0 8px 24px rgba(11,18,40,0.05) !important;
 }
-.matrix-criterion { }
 .matrix-criterion-title {
   margin: 0 0 6px 0;
   font-size: 0.98rem;
@@ -566,4 +567,3 @@ col.col-radio-def   { width: 7%;  }
   body { background: #fff !important; }
   .card { box-shadow: none !important; border: none !important; }
 }
-
