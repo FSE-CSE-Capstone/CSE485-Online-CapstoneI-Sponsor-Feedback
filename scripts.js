@@ -26,7 +26,7 @@
   var ENDPOINT_URL    = 'https://cse485-online-worker.sbecerr7.workers.dev/';
   var DATA_LOADER_URL = 'https://cse485-online-data-loader.sbecerr7.workers.dev/';
 
-  // ─────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
   // RUBRIC
   // ─────────────────────────────────────────────────────────────────────────────
   var RUBRIC = [
@@ -86,6 +86,7 @@
   var completedProjects  = {};   // { projectName: true }
   var remoteCompletedProjects = {}; // submitted by any sponsor, loaded from the worker
   var completionStatusLoaded = false;
+  var localSubmissionTimes = {};
   var stagedRatings      = {};   // in-progress draft ratings
   var submittedResponses = {};   // full payloads of submitted projects (for report)
 
@@ -213,6 +214,7 @@
       name:               currentName,
       email:              currentEmail,
       completedProjects:  completedProjects,
+      localSubmissionTimes: localSubmissionTimes,
       stagedRatings:      stagedRatings,
       submittedResponses: submittedResponses
     };
@@ -230,6 +232,7 @@
         currentName        = obj.name || '';
         currentEmail       = obj.email || '';
         completedProjects  = obj.completedProjects  || {};
+        localSubmissionTimes = obj.localSubmissionTimes || {};
         stagedRatings      = obj.stagedRatings      || {};
         submittedResponses = obj.submittedResponses  || {};
         if (nameInput)  nameInput.value  = currentName;
@@ -788,6 +791,7 @@
     .then(function () {
       completedProjects[submittingProject] = true;
       remoteCompletedProjects[submittingProject] = true;
+      localSubmissionTimes[submittingProject] = Date.now();
       delete stagedRatings[submittingProject];
       saveProgress();
 
@@ -799,12 +803,20 @@
       if (hasCompletedAllProjects()) {
         setTimeout(showThankyouStage, 1000);
       }
+      setTimeout(function () {
+        fetchCompletionStatus(function () {
+          if (currentEmail && stageProjects && stageProjects.style.display !== 'none') {
+            populateProjectListFor(currentEmail);
+          }
+        });
+      }, 1500);
     })
     .catch(function (err) {
       console.error('Submission error', err);
       if (err && err.alreadySubmitted) {
         completedProjects[submittingProject] = true;
         remoteCompletedProjects[submittingProject] = true;
+        localSubmissionTimes[submittingProject] = Date.now();
         delete stagedRatings[submittingProject];
         saveProgress();
         populateProjectListFor(currentEmail);
@@ -1101,8 +1113,14 @@
         }
         remoteCompletedProjects = next;
         completionStatusLoaded = true;
+        var now = Date.now();
         Object.keys(completedProjects).forEach(function (projectName) {
-          if (!remoteCompletedProjects[projectName]) delete completedProjects[projectName];
+          var submittedAt = Number(localSubmissionTimes[projectName] || 0);
+          var keepRecentLocalSubmit = submittedAt && (now - submittedAt < 30000);
+          if (!remoteCompletedProjects[projectName] && !keepRecentLocalSubmit) {
+            delete completedProjects[projectName];
+            delete localSubmissionTimes[projectName];
+          }
         });
         saveProgress();
         updateProgressCounter();
@@ -1214,6 +1232,7 @@
     get completedProjects()  { return completedProjects; },
     get remoteCompletedProjects() { return remoteCompletedProjects; },
     get completionStatusLoaded() { return completionStatusLoaded; },
+    get localSubmissionTimes() { return localSubmissionTimes; },
     get submittedResponses() { return submittedResponses; },
     get storageKey()         { return STORAGE_KEY; },
     reloadData:     tryFetchData,
