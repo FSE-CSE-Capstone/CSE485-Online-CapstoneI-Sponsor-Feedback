@@ -8,7 +8,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Fixed header with left-aligned logo -->
+
+  <!-- Fixed header with logo -->
   <header class="site-header" role="banner" aria-label="Site header">
     <div class="header-inner">
       <img src="logo.png" alt="CSE Capstone logo" class="site-logo" />
@@ -19,21 +20,23 @@
   <main class="center-wrapper" role="main">
     <div class="content-inner">
 
-      <!-- WELCOME block: ONLY visible on identity (first) page -->
+      <!-- Welcome block: only visible on identity page -->
       <div class="welcome-block" id="welcome-block">
         <h1 class="welcome-title">Hello, <span class="accent">welcome!</span></h1>
       </div>
 
-      <!-- FORM TITLE: stays visible across all pages -->
-      <h2 class="form-title" id="survey-title">CSE 485 Online Capstone I Sponsor Feedback Survey</h2>
+      <!-- Form title: stays visible on all pages -->
+      <h2 class="form-title" id="form-title-heading">CSE 485 Online Capstone I Sponsor Feedback Survey</h2>
 
-      <!-- Instruction under title: only on identity page, toggled via JS -->
+      <!-- Sub-title shown only on identity page -->
       <p id="under-title" class="lead under-title">Enter your name and email to continue.</p>
 
       <!-- Card wrapping all stages -->
-      <section class="card" aria-labelledby="survey-title">
+      <section class="card" aria-labelledby="form-title-heading">
 
-        <!-- STAGE 1: Identity -->
+        <!-- ================================================
+             STAGE 1: Identity
+             ================================================ -->
         <div id="stage-identity" class="stage" data-stage="identity">
           <div class="form-row">
             <label for="fullName">Your name</label>
@@ -48,94 +51,105 @@
           </div>
         </div>
 
-        <!-- STAGE 2: Projects + Matrix (hidden initially) -->
+        <!-- ================================================
+             STAGE 2: Project List + Matrix
+             ================================================ -->
         <div id="stage-projects" class="stage" style="display:none;">
 
           <!-- Instructions card -->
-          <div class="section section-projects" aria-labelledby="projects-heading">
+          <div class="section section-projects">
             <div class="instructions-card">
-              <div id="projects-instructions" class="projects-instructions" aria-live="polite">
+              <div id="projects-instructions" class="projects-instructions">
                 <p><strong>Please follow these steps to evaluate students:</strong></p>
                 <ol>
-                  <li><strong>Select the project</strong> you are evaluating from the list.</li>
+                  <li><strong>Select a project</strong> from the list below.</li>
                   <li><strong>Rate each student</strong> by choosing the option that best reflects their performance.</li>
-                  <li><strong>Provide optional comments</strong> in the box below to share any additional feedback — this is encouraged but not required.</li>
-                  <li>When finished, click <strong>Submit ratings for project</strong>. Use Back to return to the previous screen if needed.</li>
-                </ol>
+                  <li><strong>Provide optional comments</strong> using the toggle buttons below each matrix.</li>
+                  <li>Click <strong>"Submit ratings for project"</strong> when finished. Repeat for each project assigned to you.</li>
                 </ol>
                 <div class="scoring-note">
                   <strong>A note on scoring:</strong> Please don't feel pressure to give high marks across the board. Honest, constructive feedback &mdash; including areas for improvement &mdash; is what helps students grow and is what we value most. Critical scores will not significantly penalize students' final grades. We trust your professional judgment.
                 </div>
-                <p><strong>If you prefer to provide general feedback for the team as a whole</strong>, complete <strong>only the last row</strong> of each rating matrix (labeled for "Team Overall") instead of rating each student individually.</p>
+                <p><strong>Prefer general team feedback?</strong> Complete <strong>only the Team Overall row</strong> of each matrix instead of rating students individually.</p>
                 <ul>
-                  <li>1 - Far Below Expectations (Fail) = 50%</li>
-                  <li>2 - Quite a Bit Below Expectations = 60%</li>
-                  <li>3 - Somewhat Below Expectations = 70%</li>
-                  <li>4 - Meets Expectations = 80%</li>
-                  <li>5 - Somewhat Above Expectations = 90%</li>
-                  <li>6 - Quite a Bit Above Expectations = 100%</li>
-                  <li>7 - Exceeds Expectations (A+) = 110%</li>
+                  <li>1 &ndash; Far Below Expectations (Fail) = 50%</li>
+                  <li>2 &ndash; Quite a Bit Below Expectations = 60%</li>
+                  <li>3 &ndash; Somewhat Below Expectations = 70%</li>
+                  <li>4 &ndash; Meets Expectations = 80%</li>
+                  <li>5 &ndash; Somewhat Above Expectations = 90%</li>
+                  <li>6 &ndash; Quite a Bit Above Expectations = 100%</li>
+                  <li>7 &ndash; Exceeds Expectations (A+) = 110%</li>
                 </ul>
-                <p>Please reference this evaluation rubric: <a href="http://links.asu.edu/Sponsor_Rubric" target="_blank" rel="noopener">http://links.asu.edu/Sponsor_Rubric</a></p>
+                <p>Reference rubric: <a href="http://links.asu.edu/Sponsor_Rubric" target="_blank" rel="noopener">http://links.asu.edu/Sponsor_Rubric</a></p>
               </div>
             </div>
           </div>
 
           <!-- Project list card -->
-          <section class="project-list-card">
-            <h2 id="projects-heading">Project List <span id="progress-counter" class="progress-counter"></span></h2>
-            <!-- FIX: was <div>, must be <ul> for valid list semantics -->
-            <ul id="project-list">
-              <!-- project items inserted here by JS -->
+          <section class="project-list-card" aria-labelledby="projects-list-heading">
+            <div class="project-list-header">
+              <h2 id="projects-list-heading">Project List</h2>
+              <span id="progress-counter" class="progress-counter" aria-live="polite"></span>
+            </div>
+            <!-- JS populates this list; it must be a <ul> to accept <li> items -->
+            <ul id="project-list" role="list">
             </ul>
           </section>
 
-          <!-- Matrix section — static #matrix-info removed; JS inserts it dynamically -->
+          <!-- Matrix section: JS injects matrix-info + matrix cards here -->
           <div class="section section-matrix" aria-live="polite">
             <div id="matrix-container" class="matrix-container"></div>
           </div>
 
-          <!-- Comment section injected here by JS (after matrix-container) -->
+          <!-- Status message -->
+          <div class="form-status" id="form-status" aria-live="polite" role="status"></div>
 
-          <div class="form-status" id="form-status" aria-live="polite"></div>
-
+          <!-- Action buttons -->
           <div class="actions actions-space-between">
             <div>
-              <button id="backToIdentity" class="btn btn-outline" type="button">Back</button>
+              <button id="backToIdentity" class="btn btn-outline" type="button">&larr; Back</button>
             </div>
             <div>
               <button id="submitProject" class="btn btn-primary" type="button">Submit ratings for project</button>
             </div>
           </div>
-        </div>
 
-        <!-- STAGE 3: Thank you -->
+        </div><!-- end #stage-projects -->
+
+        <!-- ================================================
+             STAGE 3: Thank you / completion
+             ================================================ -->
         <div id="stage-thankyou" class="stage thankyou-stage" style="display:none;">
-          <div class="thankyou-icon">&#10003;</div>
-          <h2>Thank you — your evaluations have been submitted.</h2>
-          <p class="lead">We appreciate your time and feedback.</p>
+          <div class="thankyou-icon" aria-hidden="true">&#10003;</div>
+          <h2>Thank you &mdash; all evaluations have been submitted!</h2>
+          <p class="lead">We appreciate your time and thoughtful feedback.</p>
+          <p class="lead" style="margin-top:6px;">You can download or print a personal record of your responses below.</p>
           <div class="thankyou-actions">
-            <button id="downloadReport" class="btn btn-outline" type="button">Download Report</button>
-            <button id="printReport" class="btn btn-outline" type="button">Print Report</button>
+            <button id="downloadReport" class="btn btn-primary" type="button">Download My Report</button>
+            <button id="printReport"   class="btn btn-outline"  type="button">Print Report</button>
             <button id="finishStartOver" class="btn btn-outline" type="button">Start Over</button>
           </div>
         </div>
 
-      </section>
+      </section><!-- end .card -->
 
-      <footer class="footer"><small>Built for your online capstone I course.</small></footer>
-    </div>
+      <footer class="footer">
+        <small>CSE 485 Capstone Sponsor Evaluation &mdash; Arizona State University</small>
+      </footer>
+
+    </div><!-- end .content-inner -->
   </main>
 
   <!--
-    SURVEY_ROUND: Change this value at the start of each semester to isolate
-    localStorage data from previous rounds. Examples: 'spring2026', 'fall2026'.
-    Stale keys from previous rounds are automatically removed on page load.
+    SEMESTER CONFIGURATION
+    =====================
+    Change SURVEY_ROUND each semester before deploying.
+    Saved progress from any other round is automatically discarded.
+
+    Examples: 'spring2025'  'fall2025'  'spring2026'
   -->
-  <script>window.SURVEY_ROUND = 'CSE485_Online_Spg2026_Round2';</script>
+  <script>window.SURVEY_ROUND = 'CSE485_Summer26_Online_R1';</script>
   <script src="scripts.js"></script>
+
 </body>
 </html>
-
-
-
