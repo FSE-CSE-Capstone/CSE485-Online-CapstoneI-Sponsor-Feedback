@@ -26,7 +26,7 @@
   var ENDPOINT_URL    = 'https://cse485-online-worker.sbecerr7.workers.dev/';
   var DATA_LOADER_URL = 'https://cse485-online-data-loader.sbecerr7.workers.dev/';
 
-   // ─────────────────────────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────────────────
   // RUBRIC
   // ─────────────────────────────────────────────────────────────────────────────
   var RUBRIC = [
@@ -85,6 +85,7 @@
   var currentProject     = '';
   var completedProjects  = {};   // { projectName: true }
   var remoteCompletedProjects = {}; // submitted by any sponsor, loaded from the worker
+  var completionStatusLoaded = false;
   var stagedRatings      = {};   // in-progress draft ratings
   var submittedResponses = {};   // full payloads of submitted projects (for report)
 
@@ -253,7 +254,8 @@
   }
 
   function isProjectCompleted(projectName) {
-    return !!completedProjects[projectName] || !!remoteCompletedProjects[projectName];
+    if (completionStatusLoaded) return !!remoteCompletedProjects[projectName];
+    return !!completedProjects[projectName];
   }
 
   // ─────────────────────────────────────────────────────────────────────────────
@@ -1099,6 +1101,11 @@
           });
         }
         remoteCompletedProjects = next;
+        completionStatusLoaded = true;
+        Object.keys(completedProjects).forEach(function (projectName) {
+          if (!remoteCompletedProjects[projectName]) delete completedProjects[projectName];
+        });
+        saveProgress();
         updateProgressCounter();
       })
       .catch(function (err) {
@@ -1207,6 +1214,7 @@
     get stagedRatings()      { return stagedRatings; },
     get completedProjects()  { return completedProjects; },
     get remoteCompletedProjects() { return remoteCompletedProjects; },
+    get completionStatusLoaded() { return completionStatusLoaded; },
     get submittedResponses() { return submittedResponses; },
     get storageKey()         { return STORAGE_KEY; },
     reloadData:     tryFetchData,
