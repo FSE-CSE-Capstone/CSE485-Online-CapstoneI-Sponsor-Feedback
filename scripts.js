@@ -26,13 +26,13 @@
   var ENDPOINT_URL    = 'https://cse485-online-worker.sbecerr7.workers.dev/';
   var DATA_LOADER_URL = 'https://cse485-online-data-loader.sbecerr7.workers.dev/';
 
-  // ─────────────────────────────────────────────────────────────────────────────
+   // ─────────────────────────────────────────────────────────────────────────────
   // RUBRIC
   // ─────────────────────────────────────────────────────────────────────────────
   var RUBRIC = [
     {
-      title: 'Student has contributed an appropriate amount of development effort towards this project',
-      description: 'Development effort should be balanced between all team members; student should commit to a fair amount of development effort on each sprint.'
+      title: 'Development Effort',
+      description: 'Student has contributed an appropriate amount of development effort towards this project. Development effort should be balanced between all team members; student should commit to a fair amount of development effort on each sprint.'
     },
     {
       title: 'Meetings',
@@ -847,7 +847,7 @@
     var h = '';
     h += '<!doctype html><html lang="en"><head>';
     h += '<meta charset="utf-8">';
-    h += '<title>CSE 485 Online Capstone I Sponsor Evaluation Report &ndash; ' + escapeHtml(currentName) + '</title>';
+    h += '<title>Sponsor Evaluation Report &ndash; ' + escapeHtml(currentName) + '</title>';
     h += '<style>';
     h += 'body{font-family:Arial,Helvetica,sans-serif;margin:40px;color:#1a1a2e;font-size:14px;}';
     h += 'h1{color:#8c1d40;border-bottom:3px solid #8c1d40;padding-bottom:8px;font-size:1.5rem;}';
@@ -870,7 +870,7 @@
     h += '<button onclick="window.close()" style="padding:8px 18px;background:#eee;color:#333;border:0;border-radius:6px;cursor:pointer;font-size:14px;">Close</button>';
     h += '</div>';
 
-    h += '<h1>CSE 485 Online Capstone I Sponsor Evaluation Report</h1>';
+    h += '<h1>CSE 485 Capstone Sponsor Evaluation Report</h1>';
     h += '<p class="meta"><strong>Sponsor:</strong> ' + escapeHtml(currentName) + ' &lt;' + escapeHtml(currentEmail) + '&gt;</p>';
     h += '<p class="meta"><strong>Survey Round:</strong> ' + escapeHtml(ROUND) + '</p>';
     h += '<p class="meta"><strong>Generated:</strong> ' + new Date().toLocaleString() + '</p>';
